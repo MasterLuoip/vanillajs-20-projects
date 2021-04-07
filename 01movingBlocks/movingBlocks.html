@@ -1,0 +1,107 @@
+<html>
+<head>
+<style>
+  #container {
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+  }
+
+  #movingBlock {
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    position: relative;
+  }
+</style>
+<title>Moving blocks</title>
+
+</head>
+<body>
+  <div id="container">
+    <div id="movingBlock"></div>
+  </div>
+  <script>
+    const container = document.getElementById('container');
+    const block = document.getElementById('movingBlock');
+
+    const containerWidth = container.getBoundingClientRect().right;
+    const containerHeigh = container.getBoundingClientRect().bottom;
+
+    block.style.left = '0px';
+    block.style.top = '0px';
+
+    movingRight(block);
+
+    function movingRight(element) {
+      const moveRight = setInterval(() => {
+      let left = element.style.left;
+      const right = element.getBoundingClientRect().right;
+      
+      left = `${Number(left.substring(0, left.length - 2)) + 3}px`;
+     
+      if(right >= containerWidth) {
+        clearInterval(moveRight);
+        movingDown(element);
+      } else {
+        console.log(left, containerWidth);
+        element.style.left = left;
+      }
+    }, 10);
+    }
+    
+    function movingDown(element) {
+      const moveDown = setInterval(() => {
+        const bottom = block.getBoundingClientRect().bottom;
+        let top = element.style.top;
+        top = `${Number(top.substring(0, top.length - 2)) + 3}px`;
+      
+        if(bottom >= containerHeigh) {
+          clearInterval(moveDown);
+          movingLeft(element);
+        } else {
+          element.style.top = top;
+        }
+      }, 10);
+    }
+
+    function movingLeft(element) {
+      const moveLeft = setInterval(() => {
+        const left = block.getBoundingClientRect().left;
+        let elementLeft = element.style.left;
+        elementLeft = `${Number(elementLeft.substring(0, elementLeft.length - 2)) - 3}px`;
+      
+        if(left <= container.getBoundingClientRect().left) {
+          clearInterval(moveLeft);
+          movingTop(element);
+        } else {
+          element.style.left = elementLeft;
+        }
+      }, 10);
+    }
+
+    function movingTop(element) {
+      const moveTop = setInterval(() => {
+        const top = block.getBoundingClientRect().top;
+        let elementTop = element.style.top;
+        elementTop = `${Number(elementTop.substring(0, elementTop.length - 2)) - 3}px`;
+      
+        if(top <= container.getBoundingClientRect().top) {
+          clearInterval(moveTop);
+          movingRight(element);
+        } else {
+          element.style.top = elementTop;
+        }
+      }, 10);
+    }
+
+    function getCoordinate(element) {
+      const ele = element.getBoundingClientRect();
+      return {
+        x: ele.left,
+        y: ele.top
+      }
+    }
+  </script>
+</body>
+</html>
