@@ -1,107 +1,189 @@
 <html>
-<head>
-<style>
-  #container {
-    width: 500px;
-    height: 500px;
-    border: 1px solid black;
-  }
+  <head>
+    <style>
+      #container {
+        width: 500px;
+        height: 500px;
+        border: 10px solid black;
+        box-sizing: border-box;
 
-  #movingBlock {
-    background-color: red;
-    width: 100px;
-    height: 100px;
-    position: relative;
-  }
-</style>
-<title>Moving blocks</title>
-
-</head>
-<body>
-  <div id="container">
-    <div id="movingBlock"></div>
-  </div>
-  <script>
-    const container = document.getElementById('container');
-    const block = document.getElementById('movingBlock');
-
-    const containerWidth = container.getBoundingClientRect().right;
-    const containerHeigh = container.getBoundingClientRect().bottom;
-
-    block.style.left = '0px';
-    block.style.top = '0px';
-
-    movingRight(block);
-
-    function movingRight(element) {
-      const moveRight = setInterval(() => {
-      let left = element.style.left;
-      const right = element.getBoundingClientRect().right;
-      
-      left = `${Number(left.substring(0, left.length - 2)) + 3}px`;
-     
-      if(right >= containerWidth) {
-        clearInterval(moveRight);
-        movingDown(element);
-      } else {
-        console.log(left, containerWidth);
-        element.style.left = left;
+        position: relative;
       }
-    }, 10);
-    }
-    
-    function movingDown(element) {
-      const moveDown = setInterval(() => {
-        const bottom = block.getBoundingClientRect().bottom;
-        let top = element.style.top;
-        top = `${Number(top.substring(0, top.length - 2)) + 3}px`;
-      
-        if(bottom >= containerHeigh) {
-          clearInterval(moveDown);
-          movingLeft(element);
-        } else {
-          element.style.top = top;
-        }
-      }, 10);
-    }
 
-    function movingLeft(element) {
-      const moveLeft = setInterval(() => {
-        const left = block.getBoundingClientRect().left;
-        let elementLeft = element.style.left;
-        elementLeft = `${Number(elementLeft.substring(0, elementLeft.length - 2)) - 3}px`;
-      
-        if(left <= container.getBoundingClientRect().left) {
-          clearInterval(moveLeft);
-          movingTop(element);
-        } else {
-          element.style.left = elementLeft;
-        }
-      }, 10);
-    }
-
-    function movingTop(element) {
-      const moveTop = setInterval(() => {
-        const top = block.getBoundingClientRect().top;
-        let elementTop = element.style.top;
-        elementTop = `${Number(elementTop.substring(0, elementTop.length - 2)) - 3}px`;
-      
-        if(top <= container.getBoundingClientRect().top) {
-          clearInterval(moveTop);
-          movingRight(element);
-        } else {
-          element.style.top = elementTop;
-        }
-      }, 10);
-    }
-
-    function getCoordinate(element) {
-      const ele = element.getBoundingClientRect();
-      return {
-        x: ele.left,
-        y: ele.top
+      #movingBlock {
+        background-color: red;
+        width: 100px;
+        height: 100px;
+        position: absolute;
       }
-    }
-  </script>
-</body>
+    </style>
+    <title>Moving blocks</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="movingBlock"></div>
+    </div>
+    <script>
+      const container = document.getElementById('container');
+      const block = document.getElementById('movingBlock');
+      const containerWidth = container.getBoundingClientRect().right;
+      const containerHeigh = container.getBoundingClientRect().bottom;
+      const containerStyle = getComputedStyle(container);
+
+      const obstacle = document.createElement('div');
+      obstacle.id = 'obstacle';
+      obstacle.style.width = '100px';
+      obstacle.style.height = '100px';
+      obstacle.style.backgroundColor = 'black';
+      obstacle.style.position = 'relative';
+      obstacle.style.left = '150px';
+      obstacle.style.top = '0';
+      container.appendChild(obstacle);
+      obstacleMovingDown(obstacle);
+      block.style.left = '0px';
+      block.style.top = '0px';
+      movingRight(block);
+      function obstacleMovingDown(obstacle) {
+        const id = setInterval(() => {
+          if (
+            obstacle.getBoundingClientRect().bottom >=
+            Number(containerHeigh) -
+              Number(containerStyle.borderBottomWidth.slice(0, -2))
+          ) {
+            clearInterval(id);
+            // if (isCollided(block, obstacle)) {
+            //   obstacle.style.top =
+            //     block.getBoundingClientRect().top -
+            //     Number(getComputedStyle(obstacle).height.slice(0, -2));
+            // }
+            obstacleMovingUp(obstacle);
+          } else {
+            obstacle.style.top = `${
+              Number(obstacle.style.top.slice(0, -2)) + 6
+            }px`;
+          }
+        }, 10);
+      }
+
+      function obstacleMovingUp(obstacle) {
+        console.log(
+          Number(container.getBoundingClientRect().top) +
+            Number(containerStyle.borderTopWidth.slice(0, -2))
+        );
+        const id = setInterval(() => {
+          if (
+            obstacle.getBoundingClientRect().top <=
+            Number(container.getBoundingClientRect().top) +
+              Number(containerStyle.borderTopWidth.slice(0, -2))
+          ) {
+            clearInterval(id);
+            // if (isCollided(block, obstacle)) {
+            //   obstacle.style.top = block.getBoundingClientRect().bottom;
+            // }
+            obstacleMovingDown(obstacle);
+          } else {
+            obstacle.style.top = `${
+              Number(obstacle.style.top.slice(0, -2)) - 10
+            }px`;
+          }
+        }, 10);
+      }
+
+      function movingRight(element) {
+        const moveRight = setInterval(() => {
+          let left = element.style.left;
+          const right = element.getBoundingClientRect().right;
+          left = `${Number(left.substring(0, left.length - 2)) + 3}px`;
+          console.log('collision', isCollided(element, obstacle));
+          if (
+            right >=
+            containerWidth - containerStyle.borderRightWidth.slice(0, -2)
+          ) {
+            clearInterval(moveRight);
+            movingDown(element);
+          } else if (!isCollided(element, obstacle)) {
+            element.style.left = left;
+          }
+        }, 10);
+      }
+
+      function movingDown(element) {
+        const moveDown = setInterval(() => {
+          const bottom = block.getBoundingClientRect().bottom;
+          let top = element.style.top;
+          top = `${Number(top.substring(0, top.length - 2)) + 3}px`;
+
+          if (
+            bottom >=
+            containerHeigh - containerStyle.borderBottomWidth.slice(0, -2)
+          ) {
+            movingLeft(element);
+            clearInterval(moveDown);
+            // clearInterval(moveDown);
+          } else if (!isCollided(element, obstacle)) {
+            element.style.top = top;
+          }
+        }, 10);
+      }
+
+      function movingLeft(element) {
+        const moveLeft = setInterval(() => {
+          const left = block.getBoundingClientRect().left;
+          let elementLeft = element.style.left;
+          elementLeft = `${
+            Number(elementLeft.substring(0, elementLeft.length - 2)) - 3
+          }px`;
+          if (
+            left <=
+            Number(container.getBoundingClientRect().left) +
+              Number(containerStyle.borderLeftWidth.slice(0, -2))
+          ) {
+            clearInterval(moveLeft);
+            movingTop(element);
+          } else if (!isCollided(element, obstacle)) {
+            element.style.left = elementLeft;
+          }
+        }, 10);
+      }
+
+      function movingTop(element) {
+        const moveTop = setInterval(() => {
+          const top = block.getBoundingClientRect().top;
+          let elementTop = element.style.top;
+          elementTop = `${
+            Number(elementTop.substring(0, elementTop.length - 2)) - 3
+          }px`;
+
+          if (
+            top <=
+            Number(container.getBoundingClientRect().top) +
+              Number(containerStyle.borderTopWidth.slice(0, -2))
+          ) {
+            clearInterval(moveTop);
+            movingRight(element);
+          } else if (!isCollided(element, obstacle)) {
+            element.style.top = elementTop;
+          }
+        }, 10);
+      }
+
+      function isCollided(elementA, elementB) {
+        const elemALeft = elementA.getBoundingClientRect().left;
+        const elemARight = elementA.getBoundingClientRect().right;
+        const elemBLeft = elementB.getBoundingClientRect().left;
+        const elemBRight = elementB.getBoundingClientRect().right;
+        const elemATop = elementA.getBoundingClientRect().top;
+        const elemABottom = elementA.getBoundingClientRect().bottom;
+        const elemBTop = elementB.getBoundingClientRect().top;
+        const elemBBottom = elementB.getBoundingClientRect().bottom;
+
+        return (
+          ((elemALeft >= elemBLeft && elemALeft <= elemBRight) ||
+            (elemARight >= elemBLeft && elemARight <= elemBRight)) &&
+          ((elemATop >= elemBTop && elemATop <= elemBBottom) ||
+            (elemABottom >= elemBTop && elemABottom <= elemBBottom))
+        );
+      }
+    </script>
+  </body>
 </html>
