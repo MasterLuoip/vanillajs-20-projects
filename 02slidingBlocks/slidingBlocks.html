@@ -2,7 +2,7 @@
   <head>
     <title>Sliding blocks</title>
     <style>
-      BODY {
+      body {
         background: #bbbbbb;
       }
 
@@ -19,7 +19,8 @@
         width: 120px;
         height: 120px;
         border: 1px solid white;
-        background: url('https://i.imgur.com/CmFuOpx.png');
+        background: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/diy-paper-flowers-1582662788.jpg?crop=0.631xw:0.945xh;0.0128xw,0.0504xh&resize=640:*');
+        background-size: 366px;
         cursor: pointer;
       }
 
@@ -75,8 +76,11 @@
       <button onclick="shuffle()">New Game</button>
     </center>
     <script>
-      // shuffle();
       function shuffle() {
+        const completeImg = document.getElementById('completeImg');
+        if (completeImg !== null) {
+          completeImg.parentNode.removeChild(completeImg);
+        }
         for (let row1 = 1; row1 <= 3; row1++) {
           for (let col1 = 1; col1 <= 3; col1++) {
             const row2 = Math.floor(Math.random() * 3 + 1);
@@ -132,15 +136,17 @@
 
         if (isComplete()) {
           const whiteTile = document.getElementsByClassName('tile9')[0];
-          whiteTile.textContent = 'Done!';
-          moveTile = () => {};
-          // document.getElementsByClassName('tile8')[0].addEventListener(
-          //   'click',
-          //   function (event) {
-          //     event.preventDefault();
-          //   },
-          //   false
-          // );
+          const image = document.createElement('div');
+          image.id = 'completeImg';
+          image.style.width = '366px';
+          image.style.height = '360px';
+          image.style.position = 'absolute';
+          image.style.top = '8px';
+
+          image.style.background =
+            "url\('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/diy-paper-flowers-1582662788.jpg?crop=0.631xw:0.945xh;0.0128xw,0.0504xh&resize=640:*'\)";
+          image.style.backgroundSize = '366px';
+          document.getElementById('table').appendChild(image);
         }
       }
 
