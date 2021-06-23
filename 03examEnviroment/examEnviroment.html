@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>You are in an exam now!</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div>
+      <h3>1. Check if the page changed</h3>
+      <p>
+        <span id="tabChangedstatus">Has the page been changed: false</span>
+      </p>
+      <p>
+        This is done by using event document.hasFocus(). If hasFocus() is too
+        strict, you can use document.visibilityChange event to detect tab change
+        or window minimised
+      </p>
+    </div>
+    <h3>2. Check if the window size if full size</h3>
+    <p>
+      <span id="fullScreenText">Has the page been changed: false</span>
+    </p>
+    <p>
+      This is done by calculating the window available height and width with the
+      window outerHeight and outerWidth
+    </p>
+    <h3>3. Check if paste content into the text field</h3>
+    <div>
+      <textarea id="handTypingInput"></textarea>
+      <span id="handTypingStatus">Hand typing ...</span>
+    </div>
+    <p>
+      In Chrome, this can be done by add input event to the text area and check
+      its inputType property.
+    </p>
+    <h3>4. Screen record <b>(User permission required)</b></h3>
+    <p>
+      This is achieved with Media Capture and Streams API. For more info: check
+      <a
+        href="https://dev.to/sebastianstamm/screen-recording-in-10-lines-of-vanilla-js-3bo8"
+        >here</a
+      >
+    </p>
+    <video autoplay id="screenRecordVideo" width="400px"></video>
+    <div>
+      <button id="startBtn">start</button>
+      <button id="stopBtn" disabled>stop</button>
+    </div>
+    <h3>5. Camera record <b>(User permission required)</b></h3>
+    <p>
+      This is achieved with MediaStream Recording API. For more info: check
+      <a
+        href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Recording_a_media_element"
+        >here</a
+      >
+    </p>
+    <video id="preview" width="160" height="120" autoplay muted></video>
+    <video autoplay id="cameraVideo" width="400px"></video>
+    <div>
+      <button id="cameraStartBtn">start</button>
+      <button id="cameraStopBtn" disabled>stop</button>
+    </div>
+    <h3>* Check if there is another screen</h3>
+    <p>
+      Unfortunately, there is no a API to check if user has the dual multiple
+      monitor.
+    </p>
+    <script src="script.js"></script>
+  </body>
+</html>
