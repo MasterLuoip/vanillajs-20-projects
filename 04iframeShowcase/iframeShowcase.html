@@ -1,0 +1,41 @@
+<html>
+  <body>
+  <h2>Basic usesages</h2>
+  <h3>1. Embed Google Map</h3>
+  <div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2271.39899345062!2d151.27491402020829!3d-33.892156840767285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12ad9c447281c7%3A0x20c31809c62de978!2sBondi%20Beach!5e0!3m2!1sen!2sau!4v1624522539865!5m2!1sen!2sau" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+  <h3>2. Embed Youtube Video</h3>
+  <p>Full Screen can be disabled by add "fullscreen: "none"" allow property.
+    The policy defines what features are available to the iframe based on the origin of the request (e.g. access to the microphone, camera, battery, web-share API, etc.).</p>
+  <div>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/gvQSng1aR9s" title="YouTube video player" frameborder="0" allow=" fullscreen 'none'; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  </iframe>
+
+  <h2>Embed Script</h2>
+  <p>Use allow property to control feature policies, e.g. fullscreen and autoplay</p>
+  <p>
+    <b>
+      Sandbox is a important feature allows you control iframe behavour. For securify purpose, configure iframe's sandbox properly
+    </b>
+  </p>
+  <p>
+    <b></b>
+  </p>
+  <iframe
+    id="Example2"
+    title="Example2"
+    width="400"
+    height="300"
+    frameborder="0"
+    scrolling="no"
+    marginheight="0"
+    marginwidth="0"
+    referrerpolicy="no-referrer"
+    sandbox="allow-scripts"
+    src="file:///Users/lawson/development/vanillajs-20-projects/04iframeShowcase/embededPage.html"
+  >
+  </iframe>
+  </body>
+</html>

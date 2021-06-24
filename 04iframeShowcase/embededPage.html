@@ -1,0 +1,10 @@
+<html>
+  <body>
+    hello from embededPage.
+    <script>
+      const text = document.createElement('p');
+      text.textContent = window.parent;
+      document.body.appendChild(text);
+    </script>
+  </body>
+</html>
