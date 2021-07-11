@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+}
+
+.container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+section {
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  height: 100vh;
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.sectionOne {
+  background-color: aqua;
+}
+
+.sectionTwo {
+  background-color: coral;
+}
+
+.sectionThree {
+  background-color: blanchedalmond;
+}
+
+.sectionFour {
+  background-color: yellow;
+}

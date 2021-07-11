@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>Snap effect</title>
+    <link rel="stylesheet" href="snapeEffect.css" />
+  </head>
+  <body>
+    <div class="container">
+      <section class="sectionOne">
+        <h1>CSS snap effect tutorial</h1>
+      </section>
+      <section class="sectionTwo">
+        <h3>
+          First, you need sections for each page, and wrap them with a container
+        </h3>
+      </section>
+      <section class="sectionThree">
+        <div>
+          <h1>
+            Second, inside the container class assgin the following css
+            properties:
+          </h1>
+          <p>
+            scroll-snap-type: y mandatory //how strictly snap points are
+            enforced on the scroll container in case there is one. Mandatory
+            makes the effect more obvious, it may have some problem with some
+            mouses scroll wheel setting. Proximity may be a better option in
+            this case.
+          </p>
+          <p>
+            overflow-y: scroll; // when an element's content is too big to fit
+            in, it should scroll
+          </p>
+          <p>height: 100vh; // match the children height</p>
+        </div>
+      </section>
+      <section class="sectionFour">
+        <div>
+          <h3>Thrid, add following css properties to children</h3>
+          <p>
+            scroll-snap-align: start; // specifies the box’s snap position as an
+            alignment of its snap area. If the child element takes the full
+            page. Start, center, or end has the same effect.
+          </p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
